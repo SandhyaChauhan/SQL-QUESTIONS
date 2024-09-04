@@ -1,0 +1,55 @@
+ Question7
+-- There is a table courses with columns: student and class
+
+-- Please list out all classes which have more than or equal to 5 students.
+
+-- For example, the table:
+
+-- +---------+------------+
+-- | student | class      |
+-- +---------+------------+
+-- | A       | Math       |
+-- | B       | English    |
+-- | C       | Math       |
+-- | D       | Biology    |
+-- | E       | Math       |
+-- | F       | Computer   |
+-- | G       | Math       |
+-- | H       | Math       |
+-- | I       | Math       |
+-- +---------+------------+
+
+
+
+Answer
+-- Create the courses table
+CREATE TABLE courses (
+    student VARCHAR(1),
+    class VARCHAR(10)
+);
+
+-- Insert data into the courses table
+INSERT INTO courses (student, class) VALUES 
+('A', 'Math'),
+('B', 'English'),
+('C', 'Math'),
+('D', 'Biology'),
+('E', 'Math'),
+('F', 'Computer'),
+('G', 'Math'),
+('H', 'Math'),
+('I', 'Math');
+
+select * from courses;
+
+select class 
+from courses
+group by class
+having count(student)>=5
+
+
+--Spark Query.
+
+coursesDf.groupBy('class')\
+         .agg(count('student').alias('c'))\
+         .filter(col('c')>=5).select('class').show()
