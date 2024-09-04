@@ -65,3 +65,13 @@ select actor_id , director_id
 from ActorDirector
 group by actor_id , director_id 
 having count(*) >=3
+
+
+spark query :
+
+from pyspark.sql.functions import col, count
+
+ActorDirectorDf.groupBy('actor_id', 'director_id') \
+    .agg(count('*').alias("c")) \
+    .filter(col('c') >= 3) \
+    .show()
